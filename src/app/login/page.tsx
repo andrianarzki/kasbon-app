@@ -13,6 +13,7 @@ import {
   AlertCircle,
   CheckCircle2,
   Sparkles,
+  X,
 } from 'lucide-react';
 
 export default function LoginPage() {
@@ -20,7 +21,9 @@ export default function LoginPage() {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -41,6 +44,17 @@ export default function LoginPage() {
     if (password.length < 6) {
       setErrorMessage('Password minimal 6 karakter ya.');
       return;
+    }
+
+    if (mode === 'signup') {
+      if (!confirmPassword) {
+        setErrorMessage('Silakan isi konfirmasi password kamu.');
+        return;
+      }
+      if (password !== confirmPassword) {
+        setErrorMessage('Konfirmasi password tidak cocok dengan password yang kamu masukkan.');
+        return;
+      }
     }
 
     setLoading(true);
@@ -65,7 +79,7 @@ export default function LoginPage() {
           return;
         }
 
-        // If email confirmation is enabled or auto-login
+        // If email confirmation is disabled or session created immediately
         if (data.session) {
           router.push('/');
           router.refresh();
@@ -102,7 +116,26 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative">
+      {/* Floating Toast Notification for Signup Success */}
+      {successMessage && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 max-w-md w-[92%] bg-slate-900/95 text-white p-4 rounded-2xl shadow-2xl backdrop-blur-md border border-slate-700/50 flex items-start gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center flex-shrink-0 text-emerald-400 mt-0.5">
+            <CheckCircle2 className="w-5 h-5" />
+          </div>
+          <div className="flex-1 text-xs sm:text-sm font-medium leading-relaxed">
+            <div className="font-bold text-emerald-400 text-sm mb-0.5">Pendaftaran Berhasil!</div>
+            {successMessage}
+          </div>
+          <button
+            onClick={() => setSuccessMessage(null)}
+            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
         {/* Brand header */}
         <div className="text-center">
@@ -127,6 +160,7 @@ export default function LoginPage() {
                 setMode('login');
                 setErrorMessage(null);
                 setSuccessMessage(null);
+                setConfirmPassword('');
               }}
               className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${
                 mode === 'login'
@@ -142,6 +176,7 @@ export default function LoginPage() {
                 setMode('signup');
                 setErrorMessage(null);
                 setSuccessMessage(null);
+                setConfirmPassword('');
               }}
               className={`flex-1 py-2 text-sm font-semibold rounded-lg transition-all ${
                 mode === 'signup'
@@ -153,18 +188,11 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {/* Feedback Alerts */}
+          {/* Feedback Error Alert */}
           {errorMessage && (
             <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-start gap-2.5">
               <AlertCircle className="w-4 h-4 text-rose-500 flex-shrink-0 mt-0.5" />
               <div className="flex-1 leading-relaxed">{errorMessage}</div>
-            </div>
-          )}
-
-          {successMessage && (
-            <div className="mb-5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm flex items-start gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-              <div className="flex-1 leading-relaxed">{successMessage}</div>
             </div>
           )}
 
@@ -215,6 +243,36 @@ export default function LoginPage() {
                 </button>
               </div>
             </div>
+
+            {/* Confirm Password field for Signup mode */}
+            {mode === 'signup' && (
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Konfirmasi Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    minLength={6}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Ketik ulang password kamu"
+                    className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:bg-white transition-all text-slate-900"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+            )}
 
             <button
               type="submit"
