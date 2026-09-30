@@ -64,9 +64,12 @@ export function DebtItem({ debt, onToggleSettle, onEdit, onDelete }: DebtItemPro
       debt.note,
       debt.due_date
     );
-    navigator.clipboard.writeText(text);
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+    }
     setCopiedWA(true);
     setTimeout(() => setCopiedWA(false), 3000);
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
