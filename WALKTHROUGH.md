@@ -194,7 +194,7 @@ CREATE TRIGGER on_debt_updated
 1. Masuk ke menu **Project Settings** (ikon gerigi di sudut kiri bawah).
 2. Pilih submenu **API**.
 3. Di bagian **Project API keys**, salin:
-   - **Project URL** (contoh: `https://xyzcompany.supabase.co`)
+   - **Project URL** (contoh: `https://jldafbbpuallfreftbcd.supabase.co`)
    - **anon public key** (contoh: `eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...`)
 
 ---
@@ -203,7 +203,7 @@ CREATE TRIGGER on_debt_updated
 Buat file bernama `.env.local` di folder root proyek (atau duplikasi dari `.env.example`):
 
 ```bash
-NEXT_PUBLIC_SUPABASE_URL=https://xyzcompany.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=https://jldafbbpuallfreftbcd.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...
 ```
 
@@ -231,9 +231,7 @@ Rubrik halaman 2 dan kriteria Auto-Reject halaman 4 menyebutkan:
 Jalankan perintah ini di PowerShell atau Terminal:
 
 ```bash
-curl -i -X GET "https://xyzcompany.supabase.co/rest/v1/debts" \
-  -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp..." \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp..."
+curl -i -X GET "https://jldafbbpuallfreftbcd.supabase.co/rest/v1/debts" -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsZGFmYmJwdWFsbGZyZWZ0YmNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3Njc5MTAsImV4cCI6MjEwNjM0MzkxMH0.ogKVSgDtdY1ix-KbOMuckeAozn7kn8MLoPcIgaoPzh8" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsZGFmYmJwdWFsbGZyZWZ0YmNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3Njc5MTAsImV4cCI6MjEwNjM0MzkxMH0.ogKVSgDtdY1ix-KbOMuckeAozn7kn8MLoPcIgaoPzh8"
 ```
 
 ### Hasil yang Diharapkan:
