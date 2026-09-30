@@ -344,10 +344,6 @@ export default function DashboardPage() {
           onSortChange={setSortOption}
           groupByPerson={groupByPerson}
           onGroupByPersonChange={setGroupByPerson}
-          onOpenNewModal={() => {
-            setEditingDebt(null);
-            setIsFormModalOpen(true);
-          }}
         />
 
         {/* Fetch Error Alert */}
