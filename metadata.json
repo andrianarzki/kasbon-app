@@ -1,0 +1,6 @@
+{
+  "name": "Kasbon - Fintech Kasbon Sosial",
+  "description": "Platform modern pencatatan utang-piutang santai antar teman dan keluarga dengan etika santun, kalkulasi otomatis, dan Supabase PostgreSQL RLS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
